@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build AVR-GCC",
+            "command": "make",
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": "build",
+            "detail": "compiler: C:\\WinAVR-20100110\\bin\\avr-gcc.exe"
+			
+        }
+    ]
+}
