@@ -1,0 +1,38 @@
+FILE_NAME = main
+BUILD_FOLDER = .\bin
+ 
+MCU = atmega328p
+CLK = 16000000UL
+
+CC = avr-gcc
+OBJCOPY = avr-objcopy
+SIZE = avr-size
+
+#Options for avr-gcc
+CFLAGS = -g -Os -o
+
+#Linking options for avr-gcc
+LFLAGS = -Os -mmcu=$(MCU) -DF_CPU=$(CLK) -o
+
+#Options for HEX file generation
+HFLAGS = -j .text -j .data -O ihex
+
+# Source files
+SRC = $(FILE_NAME).c
+SRC +=
+
+# Headers files
+INCLUDE = -I. header.h
+INCLUDE += 
+
+
+Build : $(BUILD_FOLDER)\$(FILE_NAME).elf
+	@$(OBJCOPY) $(HFLAGS) $< $(BUILD_FOLDER)\$(FILE_NAME).hex
+	@$(SIZE) --format=avr --mcu=$(MCU) $(BUILD_FOLDER)\$(FILE_NAME).elf
+	
+$(BUILD_FOLDER)\$(FILE_NAME).elf: $(BUILD_FOLDER)\$(FILE_NAME).o
+	@$(CC) $(SRC) $(INCLUDE) $(LFLAGS) $@
+	
+$(BUILD_FOLDER)\$(FILE_NAME).o:$(SRC)
+	@$(CC) $^ $(INCLUDE) $(CFLAGS) $@
+
